@@ -36,7 +36,7 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     public static String dbURL; //dbURL = "jdbc:oracle:thin:@192.168.1.72:1522:XE";
     //jdbc:oracle:thin:@host:1521:DB:oracle.net.CONNECT_TIMEOUT=2000;
-    public static String username; // = "SYSTEM";;
+    public static String username;  // = "SYSTEM";;
     public static String password = "rvcal72"; 
     public static String Estado = "";
     public static String[] dbconfig;
