@@ -36,8 +36,8 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     public static String dbURL; //dbURL = "jdbc:oracle:thin:@192.168.1.72:1522:XE";
     //jdbc:oracle:thin:@host:1521:DB:oracle.net.CONNECT_TIMEOUT=2000;
-    public static String username;  // = "SYSTEM";;
-    public static String password = "rvcal72"; 
+    public static String username;  //= "SYSTEM";;
+    public static String password; //= "rvcal72"; 
     public static String Estado = "";
     public static String[] dbconfig;
     
@@ -64,14 +64,15 @@ public class NewJFrame extends javax.swing.JFrame {
 
         Date date = Calendar.getInstance().getTime();  
         DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");  
+        
         String strDate = dateFormat.format(date);  
         jLabel1.setText(strDate);
-        //lblDB.setText("conexión:" + dbconfig[0]+":"+dbconfig[1]+":"+dbconfig[2]);
+        
         ActualizartxtDB(dbconfig);
         Timer t = new Timer(1000, updateClockAction);
         t.start(); 
-        frmLogin login = new frmLogin();
         
+        frmLogin login = new frmLogin();
         login.setAlwaysOnTop(true);
         login.setDefaultCloseOperation(EXIT_ON_CLOSE);
         login.setLocationRelativeTo(null);
@@ -308,7 +309,6 @@ public class NewJFrame extends javax.swing.JFrame {
         dbconfig.setLocationRelativeTo(null);
         dbconfig.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-    
     /**
      * @param args the command line arguments
      */

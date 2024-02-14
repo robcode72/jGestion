@@ -22,6 +22,7 @@ public class frmLogin extends javax.swing.JFrame {
     public frmLogin() {
         initComponents();
         txtUsuario.requestFocus();
+        
         if (!NewJFrame.username.isEmpty()){
             String user = NewJFrame.username.toString();
             String pass = NewJFrame.password.toString();

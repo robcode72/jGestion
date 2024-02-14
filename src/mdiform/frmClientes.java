@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
@@ -52,15 +53,31 @@ public class frmClientes extends javax.swing.JInternalFrame {
     public String Estado = "";
     */
     
+    /** 
+     * Configuración de la tabla
+     */
+    
+    public String[] columnNames = {"Código",
+                        "Cliente",
+                        "NIF",
+                        "Dirección",
+                        "Telefono"};
+    public String[] RowValores = new String[12];
+    
+    public Integer[] columnNamesWidth = {150, 1000, 300, 1000, 400, 150};
+    
+    
     /**
      * Creates new form frmClientes
      */
     public frmClientes() {
-
+        // Iniciar valores a null de los campos
+        Arrays.fill(RowValores, "");    
         initComponents();
         Frame f = new Frame();
         f.setExtendedState( f.getExtendedState()|JFrame.MAXIMIZED_BOTH );
-        OpenDB("SELECT * FROM CLIENTES");
+        OpenDB("SELECT * FROM clientes");
+        ActivarBotones();
     }
 
     /**
@@ -85,30 +102,30 @@ public class frmClientes extends javax.swing.JInternalFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        txtCliente = new javax.swing.JLabel();
-        edtCliente = new javax.swing.JTextField();
-        edtNombre = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JLabel();
-        txtDir = new javax.swing.JLabel();
-        edtTlf = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        lblCliente = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblDir = new javax.swing.JLabel();
+        edtDir = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        edtMunicipio = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        edtProvincia = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        edtCP = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        edtEmail = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        edtNomBanco = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        edtIBAN = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        icbFormaPago = new javax.swing.JComboBox<>();
+        cbFormaPago = new javax.swing.JComboBox<>();
+        edtTlf = new javax.swing.JTextField();
+        edtNombre = new javax.swing.JTextField();
+        edtCliente = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -218,38 +235,11 @@ public class frmClientes extends javax.swing.JInternalFrame {
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
 
-        txtCliente.setText("Cliente");
+        lblCliente.setText("Cliente");
 
-        edtCliente.setEnabled(false);
-        edtCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtClienteActionPerformed(evt);
-            }
-        });
-        edtCliente.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                edtClienteKeyTyped(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                edtClienteKeyReleased(evt);
-            }
-        });
+        lblNombre.setText("Contacto");
 
-        edtNombre.setEnabled(false);
-
-        txtNombre.setText("Contacto");
-
-        txtDir.setText("Teléfono");
-
-        edtTlf.setEnabled(false);
-        edtTlf.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                edtTlfKeyTyped(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                edtTlfKeyReleased(evt);
-            }
-        });
+        lblDir.setText("Teléfono");
 
         jLabel3.setText("Dirección");
 
@@ -284,8 +274,8 @@ public class frmClientes extends javax.swing.JInternalFrame {
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(edtNomBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(edtIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -296,15 +286,43 @@ public class frmClientes extends javax.swing.JInternalFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(edtNomBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(edtIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jLabel11.setText("Forma de pago");
+
+        edtTlf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edtTlfActionPerformed(evt);
+            }
+        });
+        edtTlf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                edtTlfKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                edtTlfKeyReleased(evt);
+            }
+        });
+
+        edtCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edtClienteActionPerformed(evt);
+            }
+        });
+        edtCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                edtClienteKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                edtClienteKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -323,37 +341,41 @@ public class frmClientes extends javax.swing.JInternalFrame {
                             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCliente)
-                                    .addComponent(txtNombre)
-                                    .addComponent(txtDir))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(edtTlf, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(edtCliente)
-                                    .addComponent(edtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(lblCliente)
+                                    .addComponent(lblNombre)
+                                    .addComponent(lblDir))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(edtNombre)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(edtTlf, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(edtCliente)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel7))
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 14, Short.MAX_VALUE)
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(edtCP, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jTextField6))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(edtEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(edtDir, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                                .addComponent(edtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE)
+                                                .addComponent(jLabel5)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(edtProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(10, 10, 10)))))
                         .addGap(21, 21, 21))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(icbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -361,40 +383,40 @@ public class frmClientes extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCliente)
+                    .addComponent(lblCliente)
                     .addComponent(edtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre)
+                    .addComponent(lblNombre)
                     .addComponent(edtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDir)
+                    .addComponent(lblDir)
                     .addComponent(edtTlf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(edtDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(edtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(edtProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(edtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(edtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(icbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(140, Short.MAX_VALUE))
         );
 
@@ -484,7 +506,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
             .addComponent(jLabel2)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jedtBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton2)
             .addContainerGap())
     );
@@ -578,86 +600,38 @@ public class frmClientes extends javax.swing.JInternalFrame {
         }
 
     }
-    private void MostrarTodos_Clientes(){
 
-    }    
     public void OpenDB(String query){
           
         try{  
             //step1 load the driver class  
             Class.forName("oracle.jdbc.driver.OracleDriver");  
-            removeAllRows(jTable1);
-            MostrarTodos_Clientes();  
-            
-            //step3 create the statement object
+            //removeAllRows(jTable1);
+            //conn con = new conn("xsesion", "xsesion", "ORACLE")
             try ( 
-                //step2 create  the connection object
-                //Connection con = DriverManager.getConnection(dbURL, username, password);
-                Connection conn = DriverManager.getConnection(  
-                            NewJFrame.dbURL,NewJFrame.username,NewJFrame.password)) {
                 
-                //step3 create the statement object
-                Statement stmt = conn.createStatement();
-                //step4 execute query
-                String sql = query;
-                //JOptionPane.showMessageDialog(this,query);
+            //step2 create  the connection object
+            //Connection con = DriverManager.getConnection(dbURL, username, password);
+            Connection conn = DriverManager.getConnection(
+            NewJFrame.dbURL,NewJFrame.username,NewJFrame.password)) {
+             
+            //step3 create the statement object
+            Statement stmt = conn.createStatement();
+            String sql = query;
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
                 
-                ResultSet rs = stmt.executeQuery(sql);
-                ResultSetMetaData rsmd = rs.getMetaData();
+            Rellenar_Tabla(rs);
                 
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                
-                int cols=rsmd.getColumnCount();
-                
-                String[] colName= new String[cols];
-                for (int i=0;i<cols;i++){
-                        colName[i]=rsmd.getColumnName(i+1);
-                        if (colName[i] =="Nombre"){
-                            colName[i] = "Test";
-                        }    
-                }
-                model.setColumnIdentifiers(colName);
-                
-                String[] columnNames = {"Código",
-                        "Cliente",
-                        "Nombre",
-                        "Apellido"};
-                Integer[] columnNamesWidth = {200, 600, 400, 400, 400};
-                        
-                jTable1.setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS );  
-                
-                TableColumnModel columnModel = jTable1.getColumnModel();
-                columnModel.getColumn(0).setHeaderValue(columnNames[0]);
-                columnModel.getColumn(0).setPreferredWidth(columnNamesWidth[0]);
-                
-                columnModel.getColumn(1).setHeaderValue("Cliente");
-                columnModel.getColumn(1).setPreferredWidth(600);
-                
-                columnModel.getColumn(2).setHeaderValue("Nombre");
-                columnModel.getColumn(2).setPreferredWidth(400);
-                
-                columnModel.getColumn(2).setHeaderValue("Apellidos");
-                columnModel.getColumn(3).setPreferredWidth(400);
-                
-                columnModel.getColumn(4).setPreferredWidth(400);
-                
-                while (rs.next()) {
-                  String row[] = {rs.getString(1), rs.getString(2), rs.getString(3)};
-                  model.addRow(row);
-                  
-                }
-                
-                rs.close();
-                conn.close();
-                //step5 close the connection object
+            rs.close();
+            conn.close();
             }
            }catch(ClassNotFoundException | SQLException e){
                JOptionPane.showMessageDialog(this,"Error de conexion " + e);}   
            
     }
-    
-  
-    
+        
     private void NuevoCliente(){
       NewJFrame.Estado = "N";
       edtNombre.setText(""); 
@@ -666,8 +640,6 @@ public class frmClientes extends javax.swing.JInternalFrame {
       edtCliente.requestFocus(); 
       bttnAceptar.setEnabled(true);
       bttnCancelar.setEnabled(true);
-      
-      
     }
     /*public void removeSelectedRows(jTable1 table){
        DefaultTableModel model = (DefaultTableModel) this.table.getModel();
@@ -676,16 +648,50 @@ public class frmClientes extends javax.swing.JInternalFrame {
          model.removeRow(rows[i]-i);
        }
     }*/
+    private void EditarCliente(){
+    // Muestra la información del cliente para poder editarlo
+        try{  
+            //step1 load the driver class  
+            if (edtCliente.getText()!=""){
+                Class.forName("oracle.jdbc.driver.OracleDriver");  
+                try ( 
+                Connection conn = DriverManager.getConnection(
+                NewJFrame.dbURL,NewJFrame.username,NewJFrame.password)) {
 
+                Statement stmt = conn.createStatement();
+                String Quotes = "\"";    
+                String sql = "SELECT nomcli FROM CLIENTES WHERE nomcli = "+ "rOBERTO";
+                
+                JOptionPane.showMessageDialog(null,sql);
+                ResultSet rs = stmt.executeQuery(sql);
+                //ResultSetMetaData rsmd = rs.getMetaData();
+
+                //RowValores[1] = rs.getString(1);
+
+                rs.close();
+                conn.close();
+                }
+            }
+           }catch(ClassNotFoundException | SQLException e){
+               JOptionPane.showMessageDialog(this,"Error de conexion " + e);}   
+        
+            
+            
+    }
+    
     private void jBttnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBttnEditarActionPerformed
     try {
         conn = DriverManager.getConnection(  
                             NewJFrame.dbURL,NewJFrame.username,NewJFrame.password);
+        
         int row = jTable1.getSelectedRow();
-        String cliente = (jTable1.getModel().getValueAt(row, 2).toString());
-        edtNombre.setText(cliente);
-        String nombre = (jTable1.getModel().getValueAt(row,1).toString());
-        edtCliente.setText(nombre);
+        String cliente = (jTable1.getModel().getValueAt(row,1).toString());
+        edtCliente.setText(cliente);
+        String contacto = (jTable1.getModel().getValueAt(row, 2).toString());
+        edtNombre.setText(contacto);
+        String telefono = (jTable1.getModel().getValueAt(row,4).toString());
+        edtTlf.setText(telefono);
+        EditarCliente();
         DesactivarBotones();
     }
     catch (SQLException ex)
@@ -724,12 +730,19 @@ private void ActivarBotones(){
         bttnAceptar.setEnabled(false);
         bttnCancelar.setEnabled(false);
         jBttnImprimir.setEnabled(true);
-        edtNombre.setText("");
-        edtTlf.setText("");
-        edtCliente.setText("");
-        edtCliente.setEnabled(false);
-        edtNombre.setEnabled(false);
-        edtTlf.setEnabled(false);
+        
+        edtCliente.setEditable(false);
+        edtNombre.setEditable(false);
+        edtTlf.setEditable(false);
+        edtDir.setEditable(false);
+        edtCP.setEditable(false);
+        edtMunicipio.setEditable(false);
+        edtProvincia.setEditable(false);
+        edtEmail.setEditable(false);
+        edtNomBanco.setEditable(false);
+        edtIBAN.setEditable(false);
+        cbFormaPago.setEditable(false);
+        
         NewJFrame.Estado = "";
         jTable1.setEnabled(true);
         
@@ -747,9 +760,18 @@ private void DesactivarBotones(){
             edtTlf.setText("");
             edtCliente.setText("");
         }
-        edtCliente.setEnabled(true);
-        edtNombre.setEnabled(true);
-        edtTlf.setEnabled(true);
+        edtCliente.setEditable(true);
+        edtNombre.setEditable(true);
+        edtTlf.setEditable(true);
+        edtDir.setEditable(true);
+        edtCP.setEditable(true);
+        edtMunicipio.setEditable(true);
+        edtProvincia.setEditable(true);
+        edtEmail.setEditable(true);
+        edtNomBanco.setEditable(true);
+        edtIBAN.setEditable(true);
+        cbFormaPago.setEditable(true);
+            
         jTable1.setEnabled(false);
         edtCliente.requestFocus();
     }
@@ -759,16 +781,30 @@ private void DesactivarBotones(){
       if (evt.getClickCount()> 1){
           jBttnEditar.doClick();
       }
-      DefaultTableModel tblModel = (DefaultTableModel) jTable1.getModel();
-      String tblDir = tblModel.getValueAt(jTable1.getSelectedRow(),0).toString();
-      String tblCliente = tblModel.getValueAt(jTable1.getSelectedRow(),1).toString();
-      String tblNombre = tblModel.getValueAt(jTable1.getSelectedRow(),2).toString();
-      edtNombre.setText(tblNombre);
-      edtCliente.setText(tblCliente);
-      edtTlf.setText(tblDir);
-      
-    }//GEN-LAST:event_jTable1MouseClicked
+      // DefaultTableModel tblModel = (DefaultTableModel) jTable1.getModel();
+      // String tblDir = tblModel.getValueAt(jTable1.getSelectedRow(),0).toString();
+        LimpiarCampos();
+        int row = jTable1.getSelectedRow();
+        String CodCli = (jTable1.getModel().getValueAt(row,0).toString());
+        
+        String cliente = (jTable1.getModel().getValueAt(row,1).toString());
+        edtCliente.setText(cliente);
+        String contacto = (jTable1.getModel().getValueAt(row, 2).toString());
+        edtNombre.setText(contacto);
+        String Dir = (jTable1.getModel().getValueAt(row,3).toString());
+        edtDir.setText(Dir);      
+        
 
+
+        String telefono = (jTable1.getModel().getValueAt(row,4).toString());
+        edtTlf.setText(telefono);      
+    }//GEN-LAST:event_jTable1MouseClicked
+    private void LimpiarCampos(){
+        edtCliente.setText("");
+        edtNombre.setText("");
+        edtDir.setText("");
+        edtTlf.setText("");
+    }
     private void bttnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAceptarActionPerformed
 
     if (edtCliente.getText().equals("")||edtNombre.getText().equals("")){
@@ -795,11 +831,13 @@ private void DesactivarBotones(){
         if (jTable1.getSelectedRowCount() == 1){
             String Cliente = edtCliente.getText();
             String Nombre = edtNombre.getText();
-            String Dir = edtTlf.getText();
+            String tlf = edtTlf.getText();
+            String Dir = edtDir.getText();
 
-            tblModel.setValueAt(Dir, jTable1.getSelectedRow(), 0);
             tblModel.setValueAt(Cliente, jTable1.getSelectedRow(), 1);
             tblModel.setValueAt(Nombre, jTable1.getSelectedRow(), 2);
+            tblModel.setValueAt(Dir, jTable1.getSelectedRow(), 3);
+            tblModel.setValueAt(tlf, jTable1.getSelectedRow(), 4);
 
             JOptionPane.showMessageDialog(this, "El registro a sido actualizado");
         
@@ -814,10 +852,6 @@ private void DesactivarBotones(){
     }
     ActivarBotones();
     }
-    private void edtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtClienteActionPerformed
-
     private void jPopupMenu1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPopupMenu1ComponentShown
         // TODO add your handling code here:
         
@@ -844,30 +878,7 @@ private void DesactivarBotones(){
 
 
     }//GEN-LAST:event_jTextField2KeyTyped
-private void edtTlfKeyTyped(java.awt.event.KeyEvent evt) {                                     
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        
-        if (!Character.isDigit(c)) {
-            evt.consume();
-            
-        }
-    }          
-    private void edtClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtClienteKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtClienteKeyTyped
-
-    private void edtClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtClienteKeyReleased
-        // TODO add your handling code here:
-        int position = edtCliente.getCaretPosition();
-        edtCliente.setText(edtCliente.getText().toUpperCase());
-        edtCliente.setCaretPosition(position);
-    }//GEN-LAST:event_edtClienteKeyReleased
-
-    private void edtTlfKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtTlfKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtTlfKeyReleased
-
+     
     private void pEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pEliminarActionPerformed
         jBttnBorrar.doClick();
     }//GEN-LAST:event_pEliminarActionPerformed
@@ -886,8 +897,34 @@ private void edtTlfKeyTyped(java.awt.event.KeyEvent evt) {
      model.getDataVector().removeAllElements(); 
      
     }
+    public void Rellenar_Tabla(ResultSet rs) throws SQLException{
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setColumnIdentifiers(columnNames);
+        TableColumnModel columnModel = jTable1.getColumnModel();
+        columnModel.getColumn(0).setHeaderValue(columnNames[0]);
+        columnModel.getColumn(0).setPreferredWidth(columnNamesWidth[0]);
+
+        columnModel.getColumn(1).setHeaderValue(columnNames[1]);
+        columnModel.getColumn(1).setPreferredWidth(columnNamesWidth[1]);
+
+        columnModel.getColumn(2).setHeaderValue(columnNames[2]);
+        columnModel.getColumn(2).setPreferredWidth(columnNamesWidth[2]);
+
+        columnModel.getColumn(3).setHeaderValue(columnNames[3]);
+        columnModel.getColumn(3).setPreferredWidth(columnNamesWidth[3]);
+
+        columnModel.getColumn(4).setHeaderValue(columnNames[4]);
+        columnModel.getColumn(4).setPreferredWidth(columnNamesWidth[4]);
+        
+        while (rs.next()) {
+                    String row[] = {rs.getString(1), rs.getString(2),
+                                  rs.getString(4), rs.getString(5), rs.getString(6)};
+                  model.addRow(row);
+                }
+    }
     
-    private void Consultar_Cliente(String Cliente){
+    private void Consultar_Cliente(String Cliente, int CodCli){
     // Conultar por nombre del cliente y mostrar en Jtable
 try {                                         
             // Send Query
@@ -898,7 +935,7 @@ try {
             CallableStatement cs = null;
             ResultSet rs = null;
             
-            String SQL = "{call SYSTEM.JAV_GES.CONSULTAR_CLI(?,?)}";
+            String SQL = "{call XGESTION_PKG.CONSULTAR_CLI(?,?)}";
             
             connection = DriverManager.getConnection(NewJFrame.dbURL,NewJFrame.username,NewJFrame.password);
             stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -923,66 +960,17 @@ try {
             rs = (ResultSet) cs.getObject(2);
             
             ResultSetMetaData rsmd = rs.getMetaData();
-            
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            
+
             // Limpiar jTable
             Limpiar_Tabla();
+            // Preparar tabla
             
-            
-            int cols=rsmd.getColumnCount();
-                
-            String[] colName= new String[cols];
-            for (int i=0;i<cols;i++){
-                colName[i]=rsmd.getColumnName(i+1);
-            }
-            
-            model.setColumnIdentifiers(colName);
-                
-            String[] columnNames = {"Código",
-                                    "Cliente",
-                                    "Nombre",
-                                    "Apellido"};
-            
-            Integer[] columnNamesWidth = {200, 600, 400, 400, 400};
-                        
-            jTable1.setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS );  
-                
-            TableColumnModel columnModel = jTable1.getColumnModel();
-            columnModel.getColumn(0).setHeaderValue(columnNames[0]);
-            columnModel.getColumn(0).setPreferredWidth(columnNamesWidth[0]);
-                
-            columnModel.getColumn(1).setHeaderValue("Cliente");
-            columnModel.getColumn(1).setPreferredWidth(600);
-                
-            columnModel.getColumn(2).setHeaderValue("Nombre");
-            columnModel.getColumn(2).setPreferredWidth(400);
-                
-            columnModel.getColumn(2).setHeaderValue("Apellidos");
-            columnModel.getColumn(3).setPreferredWidth(400);
-                
-            columnModel.getColumn(4).setPreferredWidth(400);
-            
-            
-            while (rs.next()) {
-                  String row[] = {rs.getString(1), rs.getString(2), rs.getString(3)};
-                  model.addRow(row);
-                  
-                }
-            
-            // Contar Filas
-            int rowCount = 0;
-            
-            while (rs.next()) {
-                    rowCount++;
-            }
-            
-            //JOptionPane.showMessageDialog(this,Integer.toString(rowCount));
-            
+            Rellenar_Tabla(rs);
+
             rs.close();
             cs.close();
-            
-            } catch (SQLException ex) {
+
+           } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage().toString());
          } 
             
@@ -993,7 +981,7 @@ try {
             Limpiar_Tabla();
             OpenDB("SELECT * FROM CLIENTES");
         }else{
-            Consultar_Cliente(jedtBuscar.getText().toString());
+            Consultar_Cliente(jedtBuscar.getText().toString(),0);
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1006,7 +994,7 @@ try {
     private void jedtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jedtBuscarKeyReleased
         // TODO add your handling code here:
      if (!jedtBuscar.getText().isEmpty()){
-        Consultar_Cliente(jedtBuscar.getText().toString());    
+        Consultar_Cliente(jedtBuscar.getText().toString(),0);    
      }else{
          Limpiar_Tabla();
          OpenDB("SELECT * FROM CLIENTES");
@@ -1107,14 +1095,51 @@ try {
     }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void edtTlfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtTlfKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if (!Character.isDigit(c)) {
+            evt.consume();
+            
+        }        
+    }//GEN-LAST:event_edtTlfKeyTyped
+
+    private void edtTlfKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtTlfKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtTlfKeyReleased
+
+    private void edtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtClienteActionPerformed
+
+    private void edtClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtClienteKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtClienteKeyTyped
+
+    private void edtClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtClienteKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtClienteKeyReleased
+
+    private void edtTlfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtTlfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtTlfActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnAceptar;
     private javax.swing.JButton bttnCancelar;
+    private javax.swing.JComboBox<String> cbFormaPago;
+    private javax.swing.JTextField edtCP;
     private javax.swing.JTextField edtCliente;
+    private javax.swing.JTextField edtDir;
+    private javax.swing.JTextField edtEmail;
+    private javax.swing.JTextField edtIBAN;
+    private javax.swing.JTextField edtMunicipio;
+    private javax.swing.JTextField edtNomBanco;
     private javax.swing.JTextField edtNombre;
+    private javax.swing.JTextField edtProvincia;
     private javax.swing.JTextField edtTlf;
-    private javax.swing.JComboBox<String> icbFormaPago;
     private javax.swing.JButton jBttnBorrar;
     private javax.swing.JButton jBttnEditar;
     private javax.swing.JButton jBttnImprimir;
@@ -1141,20 +1166,13 @@ try {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jedtBuscar;
     private javax.swing.JTextField jedtBuscar1;
+    private javax.swing.JLabel lblCliente;
+    private javax.swing.JLabel lblDir;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JMenuItem pEditar;
     private javax.swing.JMenuItem pEliminar;
-    private javax.swing.JLabel txtCliente;
-    private javax.swing.JLabel txtDir;
-    private javax.swing.JLabel txtNombre;
     // End of variables declaration//GEN-END:variables
 
     private void setCursor(int WAIT_CURSOR) {

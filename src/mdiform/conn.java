@@ -19,14 +19,21 @@ public class conn{
 
     Connection con;
     Statement statemente;
-    public conn(final String user, final String password){  
+    
+    public conn(final String user, final String password, String DB){  
         try{  
-            Class.forName("com.mysql.jdbc.Driver");  
-            con =DriverManager.getConnection("jdbc:mysql:///hms","root","mysql123"); 
+            if (DB == "MYSQL"){
+                Class.forName("com.mysql.jdbc.Driver");  
+                con =DriverManager.getConnection("jdbc:mysql:///hms","root","mysql123"); 
+            }
+            if (DB == "ORACLE"){
+                Class.forName("oracle.jdbc.driver.OracleDriver");
+                con = DriverManager.getConnection(  
+                            NewJFrame.dbURL,NewJFrame.username,NewJFrame.password);
+            }
             
             statemente =con.createStatement();  
-            
-           
+
         }catch(Exception e){ 
             System.out.println(e);
         }  
