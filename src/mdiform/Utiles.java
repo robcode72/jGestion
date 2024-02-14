@@ -116,11 +116,12 @@ public class Utiles {
     // *********************
     // Comprobar conexión a Oracle
     // *********************
-    public Boolean CheckOracleConecction() {
+    public Boolean CheckOracleConecction(String username, String pass) {
        try { 
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con_oracle = null;
-            con_oracle = DriverManager.getConnection(NewJFrame.dbURL,NewJFrame.username,NewJFrame.password);
+            con_oracle = DriverManager.getConnection(NewJFrame.dbURL, username, pass);
+            
             con_oracle.close();
             return true;
         }catch(Exception e){ 

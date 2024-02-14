@@ -25,13 +25,13 @@ public class frmLogin extends javax.swing.JFrame {
         
         if (!NewJFrame.username.isEmpty()){
             String user = NewJFrame.username.toString();
-            String pass = NewJFrame.password.toString();
+            String pas = NewJFrame.password.toString();
             txtUsuario.setText(user);
-            txtClave.setText(pass);
+            txtClave.setText(pas);
         }
         
         Utiles utiles = new Utiles();
-        if (utiles.CheckOracleConecction() != true) {
+        if (utiles.CheckOracleConecction(NewJFrame.username, NewJFrame.password) == false) {
             JOptionPane.showMessageDialog(this, "No se puede conectar a la base de datos");
             System.exit(0);
         }

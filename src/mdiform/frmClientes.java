@@ -619,8 +619,11 @@ public class frmClientes extends javax.swing.JInternalFrame {
             Statement stmt = conn.createStatement();
             String sql = query;
             
-            ResultSet rs = stmt.executeQuery(sql);
-            ResultSetMetaData rsmd = rs.getMetaData();
+            ResultSet rs;
+            rs = stmt.executeQuery(sql);
+            
+            ResultSetMetaData rsmd;
+            rsmd = rs.getMetaData();
                 
             Rellenar_Tabla(rs);
                 
@@ -652,7 +655,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
     // Muestra la información del cliente para poder editarlo
         try{  
             //step1 load the driver class  
-            if (edtCliente.getText()!=""){
+            if (!edtCliente.getText().isEmpty()){
                 Class.forName("oracle.jdbc.driver.OracleDriver");  
                 try ( 
                 Connection conn = DriverManager.getConnection(
@@ -660,7 +663,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
 
                 Statement stmt = conn.createStatement();
                 String Quotes = "\"";    
-                String sql = "SELECT nomcli FROM CLIENTES WHERE nomcli = "+ "rOBERTO";
+                String sql = "SELECT nomcli FROM clientes WHERE nomcli = "+ "rOBERTO";
                 
                 JOptionPane.showMessageDialog(null,sql);
                 ResultSet rs = stmt.executeQuery(sql);
@@ -935,7 +938,7 @@ try {
             CallableStatement cs = null;
             ResultSet rs = null;
             
-            String SQL = "{call XGESTION_PKG.CONSULTAR_CLI(?,?)}";
+            String SQL = "{call XGESTION_PKG.CONSULTAR_CLI(?,?,?)}";
             
             connection = DriverManager.getConnection(NewJFrame.dbURL,NewJFrame.username,NewJFrame.password);
             stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -947,17 +950,19 @@ try {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
             
-            cs.setString(1, jedtBuscar.getText());
+            cs.setString(1, null);
+            cs.setString(2, jedtBuscar.getText());
+            
             
             try {
-                cs.registerOutParameter(2, OracleTypes.CURSOR);
+                cs.registerOutParameter(3, OracleTypes.CURSOR);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
             
             // Working code
             cs.execute(); //Query();
-            rs = (ResultSet) cs.getObject(2);
+            rs = (ResultSet) cs.getObject(3);
             
             ResultSetMetaData rsmd = rs.getMetaData();
 
