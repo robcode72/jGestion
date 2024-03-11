@@ -10,10 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;  
-import java.text.SimpleDateFormat;  
-import java.util.Date;  
-import java.util.Calendar; 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,9 +21,6 @@ import javax.swing.Timer;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 //import java.util.Timer;
-
-
-
 
 /**
  *
@@ -37,20 +34,20 @@ public class NewJFrame extends javax.swing.JFrame {
     public static String dbURL; //dbURL = "jdbc:oracle:thin:@192.168.1.72:1522:XE";
     //jdbc:oracle:thin:@host:1521:DB:oracle.net.CONNECT_TIMEOUT=2000;
     public static String username = "SYSTEM";
-    public static String password = "rvcal72"; 
+    public static String password = "rvcal72";
     public static String Estado = "";
     public static String[] dbconfig;
-    
-    private void ActualizartxtDB(String config[]){
-         lblDB.setText("conexión:" + config[0]+":"+config[1]+":"+config[2]);
-     }    
-    
+
+    private void ActualizartxtDB(String config[]) {
+        lblDB.setText("conexión:" + config[0] + ":" + config[1] + ":" + config[2]);
+    }
+
     public NewJFrame() throws UnsupportedEncodingException {
         initComponents();
         Utiles utiles = new Utiles();
         String Path = utiles.ExtractJarPath();
         jlblPath.setText(Path);
-        
+
         try {
             dbconfig = utiles.ReadXMLConfig();
         } catch (ParserConfigurationException ex) {
@@ -60,38 +57,38 @@ public class NewJFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        dbURL = "jdbc:oracle:thin:@"+dbconfig[0]+":"+dbconfig[1]+":"+dbconfig[2];
+        dbURL = "jdbc:oracle:thin:@" + dbconfig[0] + ":" + dbconfig[1] + ":" + dbconfig[2];
 
-        Date date = Calendar.getInstance().getTime();  
-        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");  
-        
-        String strDate = dateFormat.format(date);  
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+
+        String strDate = dateFormat.format(date);
         jLabel1.setText(strDate);
-        
+
         ActualizartxtDB(dbconfig);
         Timer t = new Timer(1000, updateClockAction);
-        t.start(); 
-        
+        t.start();
+
         frmLogin login = new frmLogin();
         login.setAlwaysOnTop(true);
         login.setDefaultCloseOperation(EXIT_ON_CLOSE);
         login.setLocationRelativeTo(null);
         login.setVisible(true);
-    }   
-        ActionListener updateClockAction = new ActionListener() {
-    
+    }
+    ActionListener updateClockAction = new ActionListener() {
+
         public void actionPerformed(ActionEvent e) {
             // Assumes clock is a custom component
             //jLabel1.setText(System.currentTimeMillis()); 
             // OR
             // Assumes clock is a JLabel
-            Date date = Calendar.getInstance().getTime();  
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");  
+            Date date = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             String strDate = dateFormat.format(date);
             jLabel2.setText("Hora:" + strDate);//(new Date().toString()); 
-           } 
-      };
-     
+        }
+    };
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,12 +110,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jlblPath = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemClientes = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -196,6 +198,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo");
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Business_16px.png"))); // NOI18N
+        jMenuItem4.setText("Empresa");
+        jMenu1.add(jMenuItem4);
+
+        jMenuItemClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Admin_16px_1.png"))); // NOI18N
         jMenuItemClientes.setText("Clientes");
         jMenuItemClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +212,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuItemClientes);
         jMenu1.add(jSeparator1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/Data Backup_16px.png"))); // NOI18N
         jMenuItem2.setText("Configuración");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +222,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator5);
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Shutdown_16px.png"))); // NOI18N
         jMenuItem1.setText("Salir");
         jMenuItem1.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
             public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
@@ -233,11 +242,35 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu4.setText("Ventas");
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Bill_16px.png"))); // NOI18N
+        jMenuItem5.setText("Facturas");
+        jMenu4.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu4);
+
         jMenu2.setText("Listados");
+
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Print_16px.png"))); // NOI18N
+        jMenuItem6.setText("Listado de Clientes");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Print_16px.png"))); // NOI18N
+        jMenuItem7.setText("Listado de Facturas");
+        jMenu2.add(jMenuItem7);
+
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Help_16px.png"))); // NOI18N
         jMenu3.setText("Ayuda");
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Info_16px.png"))); // NOI18N
         jMenuItem3.setText("Sobre...");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,7 +313,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jMenuItem1MenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jMenuItem1MenuKeyPressed
         // TODO add your handling code here:
-         
+
     }//GEN-LAST:event_jMenuItem1MenuKeyPressed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -294,21 +327,25 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jMenuItemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemClientesActionPerformed
         // TODO add your handling code here:
-        frmClientes frameCli = new frmClientes(); 
+        frmClientes frameCli = new frmClientes();
         desktopPane.add(frameCli);
         //frameCli.setBounds(0, 0, 500, 500);
-        frameCli.setVisible(true);  
-        
+        frameCli.setVisible(true);
+
     }//GEN-LAST:event_jMenuItemClientesActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
+
         frmDBConfig dbconfig = new frmDBConfig();
         dbconfig.setAlwaysOnTop(true);
         dbconfig.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         dbconfig.setLocationRelativeTo(null);
         dbconfig.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -318,18 +355,18 @@ public class NewJFrame extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        
+
         //* Existen Parametros, asignar a sus variables
-        if ((args != null) && (args.length > 0)){
+        if ((args != null) && (args.length > 0)) {
             username = args[0].toString();
             String tamaño = String.valueOf(args.length);
             String Msg = "Numero de parametros: " + tamaño;
-            System.out.println( Msg);
+            System.out.println(Msg);
             if (args.length > 1) {
                 password = args[1].toString();
             }
         }
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -347,17 +384,17 @@ public class NewJFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
                 try {
                     new NewJFrame().setVisible(true);
                 } catch (UnsupportedEncodingException ex) {
                     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
 
         });
@@ -371,10 +408,15 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItemClientes;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;

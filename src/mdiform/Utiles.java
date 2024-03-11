@@ -27,7 +27,6 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
-
 public class Utiles {
 
     public static void main(String argv[]) {
@@ -46,23 +45,23 @@ public class Utiles {
             DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
             DocumentBuilder b = f.newDocumentBuilder();
             Document doc = b.parse(file);
-            
+
             Node node = (Node) doc.getElementsByTagName("DATABASE").item(0);
             NodeList DBnodelist = node.getChildNodes();
-                    
-            for (int i = 0; i < DBnodelist.getLength(); i++) {
-				Node element = DBnodelist.item(i);
-				if ("HOST".equals(element.getNodeName())) {
-					element.setTextContent(config[0]);
-				}
-                                if ("PORT".equals(element.getNodeName())){
-                                    element.setTextContent(config[1]);
-                                }
-                                if ("NAME".equals(element.getNodeName())){
-                                    element.setTextContent(config[2]);
-                                }
 
-			}
+            for (int i = 0; i < DBnodelist.getLength(); i++) {
+                Node element = DBnodelist.item(i);
+                if ("HOST".equals(element.getNodeName())) {
+                    element.setTextContent(config[0]);
+                }
+                if ("PORT".equals(element.getNodeName())) {
+                    element.setTextContent(config[1]);
+                }
+                if ("NAME".equals(element.getNodeName())) {
+                    element.setTextContent(config[2]);
+                }
+
+            }
             // Write to XML file            
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -71,18 +70,17 @@ public class Utiles {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(file);        
+            StreamResult result = new StreamResult(file);
             transformer.transform(source, result);
 
-        }
-        catch (ParserConfigurationException e) {
+        } catch (ParserConfigurationException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
+
         return null;
 
-  }
-    
+    }
+
     public String[] ReadXMLConfig() throws ParserConfigurationException, SAXException, IOException {
         //creating a constructor of file class and parsing an XML file  
         String[] config = new String[3];
@@ -106,27 +104,27 @@ public class Utiles {
                     config[2] = eElement.getElementsByTagName("NAME").item(0).getTextContent();
                 }
             }
-            
+
         } catch (IOException | ParserConfigurationException | DOMException | SAXException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return config;
     }
-   
+
     // *********************
     // Comprobar conexión a Oracle
     // *********************
     public Boolean CheckOracleConecction(String username, String pass) {
-       try { 
+        try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con_oracle = null;
             con_oracle = DriverManager.getConnection(NewJFrame.dbURL, username, pass);
-            
+
             con_oracle.close();
             return true;
-        }catch(Exception e){ 
+        } catch (Exception e) {
             System.out.println(e);
             return false;
-        } 
+        }
     }
 }
