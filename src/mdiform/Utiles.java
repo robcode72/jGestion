@@ -50,7 +50,9 @@ public class Utiles {
             NodeList DBnodelist = node.getChildNodes();
 
             for (int i = 0; i < DBnodelist.getLength(); i++) {
+                
                 Node element = DBnodelist.item(i);
+                
                 if ("HOST".equals(element.getNodeName())) {
                     element.setTextContent(config[0]);
                 }
@@ -60,8 +62,18 @@ public class Utiles {
                 if ("NAME".equals(element.getNodeName())) {
                     element.setTextContent(config[2]);
                 }
-
+                
             }
+            
+            node = (Node) doc.getElementsByTagName("EJERCICIO").item(0); 
+            NodeList nodeList = node.getChildNodes();
+            Node eElement = nodeList.item(1);
+
+            if ("AÑO".equals(eElement.getNodeName())) {
+                eElement.setTextContent(config[3]);
+                }
+            
+            
             // Write to XML file            
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -83,7 +95,7 @@ public class Utiles {
 
     public String[] ReadXMLConfig() throws ParserConfigurationException, SAXException, IOException {
         //creating a constructor of file class and parsing an XML file  
-        String[] config = new String[3];
+        String[] config = new String[4];
         try {
             File file = new File("config.xml");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -91,6 +103,7 @@ public class Utiles {
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
             System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+
             NodeList nodeList = doc.getElementsByTagName("DATABASE");
             // nodeList is not iterable, so we are using for loop  
             for (int itr = 0; itr < nodeList.getLength(); itr++) {
@@ -103,7 +116,18 @@ public class Utiles {
                     config[1] = eElement.getElementsByTagName("PORT").item(0).getTextContent();
                     config[2] = eElement.getElementsByTagName("NAME").item(0).getTextContent();
                 }
+            
+                nodeList = doc.getElementsByTagName("EJERCICIO");
+                node = nodeList.item(0);
+                System.out.println("\nNode Name :" + node.getNodeName());
+                
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    
+                    Element eElement = (Element) node;
+                    config[3] = eElement.getElementsByTagName("AÑO").item(0).getTextContent();
+                }
             }
+
 
         } catch (IOException | ParserConfigurationException | DOMException | SAXException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

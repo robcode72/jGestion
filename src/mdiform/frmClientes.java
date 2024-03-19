@@ -77,7 +77,14 @@ public class frmClientes extends javax.swing.JInternalFrame {
         OpenDB("SELECT * FROM clientes");
         ActivarBotones();
         //Cargar formas de pagos en el combobox
-        Cargar_FormasPago();
+        //Cargar_FormasPago();
+        try {
+            // TODO add your handling code here:
+            RellenarComboIva();
+            RellenarComboFPagos();
+        } catch (SQLException ex) {
+            Logger.getLogger(frmClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -128,6 +135,12 @@ public class frmClientes extends javax.swing.JInternalFrame {
         edtNomBanco = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         edtIBAN = new javax.swing.JTextField();
+        edtEntidad = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        edtSucursal = new javax.swing.JTextField();
+        edtDC = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         cbFormaPago = new javax.swing.JComboBox<>();
         edtNomFiscal = new javax.swing.JTextField();
@@ -139,6 +152,8 @@ public class frmClientes extends javax.swing.JInternalFrame {
         edtNIF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtNotas = new javax.swing.JTextArea();
+        jLabel14 = new javax.swing.JLabel();
+        cbIVA = new javax.swing.JComboBox<>();
 
         jPopupMenu1.setInvoker(jTable1);
         jPopupMenu1.setLabel("");
@@ -239,6 +254,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -367,7 +383,23 @@ public class frmClientes extends javax.swing.JInternalFrame {
 
     jLabel9.setText("Banco");
 
+    edtNomBanco.setEditable(false);
+
     jLabel10.setText("IBAN");
+
+    edtIBAN.setEditable(false);
+
+    edtEntidad.setEditable(false);
+
+    jLabel12.setText("SUCURSAL");
+
+    jLabel13.setText("ENTIDAD");
+
+    edtSucursal.setEditable(false);
+
+    edtDC.setEditable(false);
+
+    jLabel15.setText("DC");
 
     javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
     jPanel3.setLayout(jPanel3Layout);
@@ -379,13 +411,30 @@ public class frmClientes extends javax.swing.JInternalFrame {
                 .addComponent(jLabel8)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel9)
-                        .addComponent(jLabel10))
-                    .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(59, 59, 59)
+                            .addComponent(edtIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(67, 67, 67)
+                            .addComponent(jLabel10)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(edtNomBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(edtIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(edtEntidad, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13))
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel12)
+                        .addComponent(edtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel15)
+                        .addComponent(edtDC, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(14, 14, 14)
+                    .addComponent(jLabel9)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(edtNomBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap(151, Short.MAX_VALUE))
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,17 +442,36 @@ public class frmClientes extends javax.swing.JInternalFrame {
             .addContainerGap()
             .addComponent(jLabel8)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel9)
                 .addComponent(edtNomBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGap(15, 15, 15)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel10)
-                .addComponent(edtIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jLabel12)
+                .addComponent(jLabel13)
+                .addComponent(jLabel15))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(edtIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(edtEntidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(edtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(edtDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(31, Short.MAX_VALUE))
     );
 
     jLabel11.setText("Forma de pago");
+
+    cbFormaPago.addItemListener(new java.awt.event.ItemListener() {
+        public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            cbFormaPagoItemStateChanged(evt);
+        }
+    });
+    cbFormaPago.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            cbFormaPagoMouseClicked(evt);
+        }
+    });
 
     edtCliente.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -451,9 +519,12 @@ public class frmClientes extends javax.swing.JInternalFrame {
 
     lblNIF.setText("N.I.F.");
 
+    txtNotas.setEditable(false);
     txtNotas.setColumns(20);
     txtNotas.setRows(5);
     jScrollPane1.setViewportView(txtNotas);
+
+    jLabel14.setText("I.V.A%");
 
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
@@ -467,7 +538,11 @@ public class frmClientes extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel11)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel14)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cbIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -552,13 +627,17 @@ public class frmClientes extends javax.swing.JInternalFrame {
                 .addComponent(edtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(24, 24, 24)
             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(27, 27, 27)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel11)
-                .addComponent(cbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-            .addGap(17, 17, 17))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(cbIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(cbFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(18, 18, 18)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(17, Short.MAX_VALUE))
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -858,7 +937,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
         edtNomBanco.setEditable(true);
         edtIBAN.setEditable(true);
         cbFormaPago.setEditable(true);
-
+        cbIVA.setEditable(true);
         jTable1.setEnabled(false);
         edtCliente.requestFocus();
     }
@@ -899,6 +978,8 @@ public class frmClientes extends javax.swing.JInternalFrame {
         edtEmail.setText("");
         edtNomBanco.setText("");
         edtIBAN.setText("");
+        cbFormaPago.setSelectedIndex(-1);
+        cbIVA.setSelectedIndex(-1);
         
     }
     private void bttnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAceptarActionPerformed
@@ -968,7 +1049,8 @@ public class frmClientes extends javax.swing.JInternalFrame {
                           p_email     IN CLIENTES.CLIEMAIL%TYPE,
                           p_codfPago  IN CLIENTES.ICODFPAGO%TYPE,
                           p_notas     IN CLIENTES.CLIOBSERVACION%TYPE,
-                          p_nombanco  IN CLIENTES.NOMBANCO%TYPE)
+                          p_nombanco  IN CLIENTES.NOMBANCO%TYPE,
+                          p_iva       IN CLIENTES.CLIIVA%TYPE  )
         */
 
         Connection connection = null;
@@ -976,7 +1058,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
             CallableStatement cs = null;
             ResultSet rs = null;
 
-            String SQL = "{call XGESTION_PKG.ACTUALIZAR_CLI(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+            String SQL = "{call XGESTION_PKG.ACTUALIZAR_CLI(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
             connection = DriverManager.getConnection(NewJFrame.dbURL, NewJFrame.username, NewJFrame.password);
             stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -998,15 +1080,16 @@ public class frmClientes extends javax.swing.JInternalFrame {
             cs.setString(8, edtCP.getText());
             cs.setString(9, edtTlf1.getText());
             cs.setString(10, edtEmail.getText());
+           
+            //Object item =  cbFormaPago.getSelectedItem();
+            //String CodFPago = ((ComboItems)item).getKey();
 
-            Object item =  cbFormaPago.getSelectedItem();
-            String CodFPago = ((ComboItems)item).getKey();
-            
-            cs.setInt(11, 0);
+            cs.setInt(11, cbFormaPago.getSelectedIndex());
             //cs.setInt(11, Integer.parseInt(CodFPago));
 
             cs.setString(12, txtNotas.getText());
             cs.setString(13, edtNomBanco.getText());
+            cs.setInt(14, cbIVA.getSelectedIndex());
             
             cs.execute();
             JOptionPane.showMessageDialog(this, "El registro a sido actualizado");
@@ -1049,9 +1132,60 @@ public class frmClientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTable1AncestorMoved
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-        // TODO add your handling code here:
+        
 
     }//GEN-LAST:event_formComponentResized
+    private void RellenarComboFPagos() throws SQLException {
+    //--- Abrir tabla de IVAS y asiganar a combox IVA
+        Connection con;
+        con = DriverManager.getConnection(NewJFrame.dbURL,
+                NewJFrame.username, NewJFrame.password);
+{
+
+        Statement stmt = con.createStatement();
+        String sql = "SELECT * FROM FORMASPAGO";
+
+        ResultSet rs;
+        rs = stmt.executeQuery(sql);
+
+        ResultSetMetaData rsmd;
+        rsmd = rs.getMetaData();
+        while (rs.next()) {
+            cbFormaPago.addItem(rs.getString(2));
+        }
+        cbFormaPago.setSelectedIndex(-1);
+        rs.close();
+        con.close();
+        }    
+    }
+    
+            
+    private void RellenarComboIva() throws SQLException {
+     //--- Abrir tabla de IVAS y asiganar a combox IVA
+        Connection con;
+        con = DriverManager.getConnection(NewJFrame.dbURL,
+                NewJFrame.username, NewJFrame.password);
+{
+
+        Statement stmt = con.createStatement();
+        String sql = "SELECT * FROM IVAS";
+
+        ResultSet rs;
+        rs = stmt.executeQuery(sql);
+
+        ResultSetMetaData rsmd;
+        rsmd = rs.getMetaData();
+        while (rs.next()) {
+            cbIVA.addItem(rs.getString(3)+ "%");
+        }
+        cbIVA.setSelectedIndex(-1);
+        rs.close();
+        con.close();
+        }
+    }
+    
+    
+
     private void Limpiar_Tabla() {
         // Borrar rows de la tabla
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -1060,18 +1194,70 @@ public class frmClientes extends javax.swing.JInternalFrame {
     }
     public void Rellenar_Campos(ResultSet rs) throws SQLException {
         rs.next();
-        edtCliente.setText(rs.getString(2));
-        edtNIF.setText(rs.getString(4));
-        edtNomFiscal.setText(rs.getString(33));
-        edtDir.setText(rs.getString(5));
-        edtTlf1.setText(rs.getString(6));
-        edtMunicipio.setText(rs.getString(9));
-        edtProvincia.setText(rs.getString(11));
-        edtCP.setText(rs.getString(12));
-        edtEmail.setText(rs.getString(13));
-        edtNomBanco.setText(rs.getString(28));
-        txtNotas.setText(rs.getString(40));
-   
+        String Cliente = rs.getString(2);
+        if (!rs.wasNull()){
+            edtCliente.setText(Cliente);
+        }
+        
+        String NIF = rs.getString(4);
+        if (!rs.wasNull()){
+            edtNIF.setText(NIF);
+        }
+        if (!rs.wasNull()){
+            edtNomFiscal.setText(rs.getString(33));
+        }
+        if (!rs.wasNull()){
+            edtDir.setText(rs.getString(5));
+        }
+        if (!rs.wasNull()){
+            edtTlf1.setText(rs.getString(6));
+        }
+        if (!rs.wasNull()){
+            edtMunicipio.setText(rs.getString(9));
+        }
+        if (!rs.wasNull()){
+            edtProvincia.setText(rs.getString(10));
+        }
+        if (!rs.wasNull()){
+            edtCP.setText(rs.getString(11));
+        }
+        if (!rs.wasNull()){
+            edtEmail.setText(rs.getString(12));
+        }
+        if (!rs.wasNull()){
+            edtNomBanco.setText(rs.getString(27));
+        }
+        if (!rs.wasNull()){
+            edtIBAN.setText(rs.getString(28));
+        }
+        if (!rs.wasNull()){
+            edtSucursal.setText(rs.getString(29));
+        }
+        if (!rs.wasNull()){
+            edtEntidad.setText(rs.getString(30));
+        }
+        if (!rs.wasNull()){
+            edtDC.setText(rs.getString(31));
+        }
+        if (!rs.wasNull()){
+            txtNotas.setText(rs.getString(40));
+        }
+        
+        Integer CodFPago;
+        CodFPago = rs.getInt(38);
+        if (rs.wasNull()){
+            cbFormaPago.setSelectedIndex(-1);
+        }else{
+            cbFormaPago.setSelectedIndex(rs.getInt(38));
+        }
+        
+        Integer CodIVA;
+        CodIVA = rs.getInt(13);
+        if (rs.wasNull()){
+            cbIVA.setSelectedIndex(-1);
+        }else{
+            cbIVA.setSelectedIndex(rs.getInt(13));
+        }
         //edtIBAN.setText(rs.getString(29));
         /*edtCliente.setText(rs.getString(1));
         edtCliente.setText(rs.getString(1));
@@ -1084,7 +1270,9 @@ public class frmClientes extends javax.swing.JInternalFrame {
         */
     }
     public void Rellenar_Tabla(ResultSet rs) throws SQLException {
-
+        
+        removeAllRows(jTable1);
+        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setColumnIdentifiers(columnNames);
         
@@ -1317,21 +1505,35 @@ public class frmClientes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_edtTlf2KeyReleased
 
+    private void cbFormaPagoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbFormaPagoMouseClicked
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_cbFormaPagoMouseClicked
+
+    private void cbFormaPagoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbFormaPagoItemStateChanged
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbFormaPagoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnAceptar;
     private javax.swing.JButton bttnCancelar;
     private javax.swing.JComboBox<String> cbFormaPago;
+    private javax.swing.JComboBox<String> cbIVA;
     private javax.swing.JTextField edtCP;
     private javax.swing.JTextField edtCliente;
+    private javax.swing.JTextField edtDC;
     private javax.swing.JTextField edtDir;
     private javax.swing.JTextField edtEmail;
+    private javax.swing.JTextField edtEntidad;
     private javax.swing.JTextField edtIBAN;
     private javax.swing.JTextField edtMunicipio;
     private javax.swing.JTextField edtNIF;
     private javax.swing.JTextField edtNomBanco;
     private javax.swing.JTextField edtNomFiscal;
     private javax.swing.JTextField edtProvincia;
+    private javax.swing.JTextField edtSucursal;
     private javax.swing.JTextField edtTlf1;
     private javax.swing.JTextField edtTlf2;
     private javax.swing.JButton jBttnBorrar;
@@ -1343,6 +1545,10 @@ public class frmClientes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
