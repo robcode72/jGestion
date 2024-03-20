@@ -131,7 +131,6 @@ public class frmNuevoEditar_IVA extends javax.swing.JDialog {
            edtNomIVA.setText(NomIVA);
            edtIVA.setText(IVA);
         }
-
     }//GEN-LAST:event_formComponentShown
     private void Guardar_IVA(String NomIVA, Integer Iva) {
        // Muestra la información del cliente para poder editarlo
