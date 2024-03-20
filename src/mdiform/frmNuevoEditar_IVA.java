@@ -188,7 +188,6 @@ public class frmNuevoEditar_IVA extends javax.swing.JDialog {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage().toString());
         }
-
     }
 
     /**
