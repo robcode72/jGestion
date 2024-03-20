@@ -12,11 +12,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import javax.swing.Timer;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -92,6 +94,13 @@ public class NewJFrame extends javax.swing.JFrame {
         Timer t = new Timer(1000, updateClockAction);
         t.start();
 
+        int year = Year.now().getValue();
+        
+        if (Ejercicio != year){
+            JOptionPane.showMessageDialog(null,"Mensaje de advertencia: Estas trabajando en un ejercicio fuera de fecha ", "WARNING_MESSAGE", JOptionPane.WARNING_MESSAGE);
+        }   
+        
+        
         frmLogin login = new frmLogin();
         login.setAlwaysOnTop(true);
         login.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -137,9 +146,12 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenuItemClientes = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -278,6 +290,25 @@ public class NewJFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem8);
 
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Bill_16px.png"))); // NOI18N
+        jMenuItem9.setText("IVAS");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem9);
+
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/Edit File_16px.png"))); // NOI18N
+        jMenuItem10.setText("Formas Pago");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem10);
+        jMenu1.add(jSeparator5);
+
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/Data Backup_16px.png"))); // NOI18N
         jMenuItem2.setText("Configuración");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -286,25 +317,16 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
-        jMenu1.add(jSeparator5);
+        jMenu1.add(jSeparator6);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Shutdown_16px.png"))); // NOI18N
-        jMenuItem1.setText("Salir");
-        jMenuItem1.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
-            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
-                jMenuItem1MenuKeyPressed(evt);
-            }
-            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
-            }
-            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
-            }
-        });
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Shutdown_16px.png"))); // NOI18N
+        jMenuItem11.setText("Salir");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItem11ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(jMenuItem11);
 
         jMenuBar1.add(jMenu1);
 
@@ -312,6 +334,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Bill_16px.png"))); // NOI18N
         jMenuItem5.setText("Facturas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem5);
 
         jMenuBar1.add(jMenu4);
@@ -398,16 +425,6 @@ public class NewJFrame extends javax.swing.JFrame {
         }   
     }
 
-    private void jMenuItem1MenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jMenuItem1MenuKeyPressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jMenuItem1MenuKeyPressed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -443,10 +460,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         // Pantalla Ejercicios
-       /*frmEjercicios frameEje = new frmEjercicios();
-        desktopPane.add(frameEje);
-        frameEje.setVisible(true);
-          ^*/
        Ejercicios eje = new Ejercicios(this, rootPaneCheckingEnabled);
        eje.setVisible(true);
        eje.isModal();
@@ -457,7 +470,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_formComponentShown
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
@@ -486,6 +498,33 @@ public class NewJFrame extends javax.swing.JFrame {
        
         
     }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        frmManFacturas frmfacturas = new frmManFacturas();
+        desktopPane.add(frmfacturas);
+        frmfacturas.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // Ventas IVAS
+        frmIVAS frmiva = new frmIVAS();
+        desktopPane.add(frmiva);
+        //frameCli.setBounds(0, 0, 500, 500);
+        frmiva.setVisible(true);   
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // Ventaba Formas de Pago
+        frmFormasPago frmFPago = new frmFormasPago();
+        desktopPane.add(frmFPago);
+        frmFPago.setVisible(true);  
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -551,7 +590,8 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JMenu jMenu3;
     javax.swing.JMenu jMenu4;
     javax.swing.JMenuBar jMenuBar1;
-    javax.swing.JMenuItem jMenuItem1;
+    javax.swing.JMenuItem jMenuItem10;
+    javax.swing.JMenuItem jMenuItem11;
     javax.swing.JMenuItem jMenuItem2;
     javax.swing.JMenuItem jMenuItem3;
     javax.swing.JMenuItem jMenuItem4;
@@ -559,6 +599,7 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JMenuItem jMenuItem6;
     javax.swing.JMenuItem jMenuItem7;
     javax.swing.JMenuItem jMenuItem8;
+    javax.swing.JMenuItem jMenuItem9;
     javax.swing.JMenuItem jMenuItemClientes;
     javax.swing.JPanel jPanel1;
     javax.swing.JPopupMenu.Separator jSeparator1;
@@ -566,6 +607,7 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JSeparator jSeparator3;
     javax.swing.JSeparator jSeparator4;
     javax.swing.JPopupMenu.Separator jSeparator5;
+    javax.swing.JPopupMenu.Separator jSeparator6;
     javax.swing.JLabel jlblPath;
     javax.swing.JLabel lblDB;
     // End of variables declaration//GEN-END:variables
