@@ -228,11 +228,28 @@ public class frmFormasPago extends javax.swing.JInternalFrame {
     }
 
     private void bttnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSelectActionPerformed
+        // Editar Formas de pago
+        DefaultTableModel tblModel = (DefaultTableModel) jTable1.getModel();
+
+        String CodFPago =  tblModel.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        String NomFPago = tblModel.getValueAt(jTable1.getSelectedRow(), 1).toString();
+        
+        frmNuevoEditar_FPago frmNewFPago = new frmNuevoEditar_FPago(null, rootPaneCheckingEnabled);
+        
+        frmNewFPago.NomFPago = NomFPago;
+        //CONSULTAR_IVAS(NomIVA);
+        frmNewFPago.CodFPago = Integer.valueOf(CodFPago);
+        frmNewFPago.Estado = 0; // Modo Editar
+
+        frmNewFPago.setVisible(true);
+        frmNewFPago.isModal();
+        OpenDB(SQL_EJERCICIO);
 
     }//GEN-LAST:event_bttnSelectActionPerformed
 
     private void bttnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnNuevoActionPerformed
         frmNuevoEditar_FPago frmNewFPago = new frmNuevoEditar_FPago(null, rootPaneCheckingEnabled);
+        frmNewFPago.Estado = 1; // Modo Insertar
         frmNewFPago.setVisible(true);
         frmNewFPago.isModal();
         OpenDB(SQL_EJERCICIO);
