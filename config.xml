@@ -5,4 +5,7 @@
 		<PORT>1522</PORT>
 		<NAME>XE</NAME>
 	</DATABASE>
+	<EJERCICIO>
+	<AÑO>2024</AÑO>
+	</EJERCICIO>
 </class>

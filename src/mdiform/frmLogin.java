@@ -22,15 +22,16 @@ public class frmLogin extends javax.swing.JFrame {
     public frmLogin() {
         initComponents();
         txtUsuario.requestFocus();
-        if (!NewJFrame.username.isEmpty()){
+
+        if (!NewJFrame.username.isEmpty()) {
             String user = NewJFrame.username.toString();
-            String pass = NewJFrame.password.toString();
+            String pas = NewJFrame.password.toString();
             txtUsuario.setText(user);
-            txtClave.setText(pass);
+            txtClave.setText(pas);
         }
-        
+
         Utiles utiles = new Utiles();
-        if (utiles.CheckOracleConecction() != true) {
+        if (utiles.CheckOracleConecction(NewJFrame.username, NewJFrame.password) == false) {
             JOptionPane.showMessageDialog(this, "No se puede conectar a la base de datos");
             System.exit(0);
         }
@@ -182,57 +183,55 @@ public class frmLogin extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-         txtUsuario.requestFocus(true);
+        txtUsuario.requestFocus(true);
     }//GEN-LAST:event_formComponentShown
 
     private void bttnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAceptarActionPerformed
         // TODO add your handling code here:
         if (txtClave.getText().isEmpty() || txtUsuario.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this,"Debes de introducir el usuario y contraseña.");
+            JOptionPane.showMessageDialog(this, "Debes de introducir el usuario y contraseña.");
             txtUsuario.requestFocus(true);
-        }else{
+        } else {
             NewJFrame.password = txtClave.getText();
             NewJFrame.username = txtUsuario.getText();
             // Check User+Password
             try {
                 Connection con = null;
-                con = DriverManager.getConnection(  
-                            NewJFrame.dbURL,NewJFrame.username,NewJFrame.password);
+                con = DriverManager.getConnection(
+                        NewJFrame.dbURL, NewJFrame.username, NewJFrame.password);
                 con.close();
                 dispose();
-    }
-    catch (SQLException ex)
-    {
-        if (ex.getErrorCode() == 12541){
-            int i = JOptionPane.showConfirmDialog(this,"No se ha podido comunicar con el servidor.\n" + "¿Deseas configurar la conexión?"); 
-            if (i == 0){
-                frmDBConfig dbconfig = new frmDBConfig();
-                dbconfig.setAlwaysOnTop(true);
-                dbconfig.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                dbconfig.setLocationRelativeTo(null);
-                dbconfig.setVisible(true);
-                dbconfig.toFront();
+            } catch (SQLException ex) {
+                if (ex.getErrorCode() == 12541) {
+                    int i = JOptionPane.showConfirmDialog(this, "No se ha podido comunicar con el servidor.\n" + "¿Deseas configurar la conexión?");
+                    if (i == 0) {
+                        frmDBConfig dbconfig = new frmDBConfig();
+                        dbconfig.setAlwaysOnTop(true);
+                        dbconfig.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        dbconfig.setLocationRelativeTo(null);
+                        dbconfig.setVisible(true);
+                        dbconfig.toFront();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+                txtUsuario.requestFocus();
             }
-        }else{
-            JOptionPane.showMessageDialog(this,ex.getMessage());
+
         }
-        txtUsuario.requestFocus();
-    }
-            
-        }
-        
+
     }//GEN-LAST:event_bttnAceptarActionPerformed
 
     private void txtUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyReleased
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtClave.requestFocus();
         }
     }//GEN-LAST:event_txtUsuarioKeyReleased
 
     private void txtClaveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveKeyReleased
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             bttnAceptar.requestFocus();
         }
 
@@ -269,7 +268,7 @@ public class frmLogin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new frmLogin().setVisible(true);
-                
+
             }
         });
     }

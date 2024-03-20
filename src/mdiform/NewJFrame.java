@@ -10,20 +10,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;  
-import java.text.SimpleDateFormat;  
-import java.util.Date;  
-import java.util.Calendar; 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Year;
+import java.util.Date;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import javax.swing.Timer;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 //import java.util.Timer;
-
-
-
 
 /**
  *
@@ -31,21 +32,34 @@ import org.xml.sax.SAXException;
  */
 public class NewJFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     */
     public static String dbURL; //dbURL = "jdbc:oracle:thin:@192.168.1.72:1522:XE";
     //jdbc:oracle:thin:@host:1521:DB:oracle.net.CONNECT_TIMEOUT=2000;
-    public static String username;  // = "SYSTEM";;
-    public static String password = "rvcal72"; 
+    public static String username = "SYSTEM";
+    public static String password = "rvcal72";
     public static String Estado = "";
     public static String[] dbconfig;
-    
-    private void ActualizartxtDB(String config[]){
-         lblDB.setText("conexión:" + config[0]+":"+config[1]+":"+config[2]);
-     }    
-    
+    public static Integer Ejercicio;
+
+    private void ActualizartxtDB(String config[]) {
+        lblDB.setText("conexión:" + config[0] + ":" + config[1] + ":" + config[2]);
+    }
+
+    SetTitulo SetTitulo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    /**
+     * Creates new form NewJFrame
+     * @param Texto
+     */
+    public class SetTitulo{
+        public void CambiarTexto(String Texto) {
+            setTitle("Gestión Simple - Ejercicio: " + Texto);
+        }
+    }
+
+
     public NewJFrame() throws UnsupportedEncodingException {
+
         initComponents();
         Utiles utiles = new Utiles();
         String Path = utiles.ExtractJarPath();
@@ -60,37 +74,53 @@ public class NewJFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        dbURL = "jdbc:oracle:thin:@"+dbconfig[0]+":"+dbconfig[1]+":"+dbconfig[2];
+        
+        dbURL = "jdbc:oracle:thin:@" + dbconfig[0] + ":" + dbconfig[1] + ":" + dbconfig[2];
+        Ejercicio = Integer.valueOf(dbconfig[3]);
+        System.out.println("Ejercicio :" + Ejercicio.toString());
+        
+        if (Ejercicio > 0 ){
+            
+            SetTitulo s = new SetTitulo();
+            s.CambiarTexto(Ejercicio.toString()); // Mostrar año del Ejercio en el titulo
+        }
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
-        Date date = Calendar.getInstance().getTime();  
-        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");  
-        String strDate = dateFormat.format(date);  
+        String strDate = dateFormat.format(date);
         jLabel1.setText(strDate);
-        //lblDB.setText("conexión:" + dbconfig[0]+":"+dbconfig[1]+":"+dbconfig[2]);
+
         ActualizartxtDB(dbconfig);
         Timer t = new Timer(1000, updateClockAction);
-        t.start(); 
-        frmLogin login = new frmLogin();
+        t.start();
+
+        int year = Year.now().getValue();
         
+        if (Ejercicio != year){
+            JOptionPane.showMessageDialog(null,"Mensaje de advertencia: Estas trabajando en un ejercicio fuera de fecha ", "WARNING_MESSAGE", JOptionPane.WARNING_MESSAGE);
+        }   
+        
+        
+        frmLogin login = new frmLogin();
         login.setAlwaysOnTop(true);
         login.setDefaultCloseOperation(EXIT_ON_CLOSE);
         login.setLocationRelativeTo(null);
         login.setVisible(true);
-    }   
-        ActionListener updateClockAction = new ActionListener() {
-    
+    }
+    ActionListener updateClockAction = new ActionListener() {
+
         public void actionPerformed(ActionEvent e) {
             // Assumes clock is a custom component
             //jLabel1.setText(System.currentTimeMillis()); 
             // OR
             // Assumes clock is a JLabel
-            Date date = Calendar.getInstance().getTime();  
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");  
+            Date date = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             String strDate = dateFormat.format(date);
             jLabel2.setText("Hora:" + strDate);//(new Date().toString()); 
-           } 
-      };
-     
+        }
+    };
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,23 +142,60 @@ public class NewJFrame extends javax.swing.JFrame {
         jlblPath = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemClientes = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestión de Taller");
+        setTitle("Gestión Simple");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(6);
         setFocusCycleRoot(false);
         setIconImages(null);
         setLocationByPlatform(true);
         setName("frmMain"); // NOI18N
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -195,6 +262,16 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo");
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Business_16px.png"))); // NOI18N
+        jMenuItem4.setText("Empresa");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
+        jMenuItemClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Admin_16px_1.png"))); // NOI18N
         jMenuItemClientes.setText("Clientes");
         jMenuItemClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,6 +281,35 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuItemClientes);
         jMenu1.add(jSeparator1);
 
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/Calendar_16px.png"))); // NOI18N
+        jMenuItem8.setText("Ejercicios");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem8);
+
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Bill_16px.png"))); // NOI18N
+        jMenuItem9.setText("IVAS");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem9);
+
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/Edit File_16px.png"))); // NOI18N
+        jMenuItem10.setText("Formas Pago");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem10);
+        jMenu1.add(jSeparator5);
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/Data Backup_16px.png"))); // NOI18N
         jMenuItem2.setText("Configuración");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,32 +317,53 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
-        jMenu1.add(jSeparator5);
+        jMenu1.add(jSeparator6);
 
-        jMenuItem1.setText("Salir");
-        jMenuItem1.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
-            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
-                jMenuItem1MenuKeyPressed(evt);
-            }
-            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
-            }
-            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
-            }
-        });
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Shutdown_16px.png"))); // NOI18N
+        jMenuItem11.setText("Salir");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItem11ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(jMenuItem11);
 
         jMenuBar1.add(jMenu1);
 
+        jMenu4.setText("Ventas");
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Bill_16px.png"))); // NOI18N
+        jMenuItem5.setText("Facturas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu4);
+
         jMenu2.setText("Listados");
+
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Print_16px.png"))); // NOI18N
+        jMenuItem6.setText("Listado de Clientes");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Print_16px.png"))); // NOI18N
+        jMenuItem7.setText("Listado de Facturas");
+        jMenu2.add(jMenuItem7);
+
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Help_16px.png"))); // NOI18N
         jMenu3.setText("Ayuda");
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mdiform/Icons/icons8_Info_16px.png"))); // NOI18N
         jMenuItem3.setText("Sobre...");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,17 +402,28 @@ public class NewJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-
-    private void jMenuItem1MenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jMenuItem1MenuKeyPressed
-        // TODO add your handling code here:
-         
-    }//GEN-LAST:event_jMenuItem1MenuKeyPressed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    public void Guardar_Config(){
+        Utiles utiles = new Utiles();
+        String[] NewConfig = new String[4];
+        NewConfig[0] = dbconfig[0];
+        NewConfig[1] = dbconfig[1];
+        NewConfig[2] = dbconfig[2];
+        NewConfig[3] = Ejercicio.toString();
+        
+        try {
+            utiles.WriteXMLConfig(NewConfig);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XPathExpressionException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }   
+    }
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
@@ -293,22 +431,100 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jMenuItemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemClientesActionPerformed
         // TODO add your handling code here:
-        frmClientes frameCli = new frmClientes(); 
+        frmClientes frameCli = new frmClientes();
         desktopPane.add(frameCli);
         //frameCli.setBounds(0, 0, 500, 500);
-        frameCli.setVisible(true);  
-        
+        frameCli.setVisible(true);
+
     }//GEN-LAST:event_jMenuItemClientesActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
+
         frmDBConfig dbconfig = new frmDBConfig();
         dbconfig.setAlwaysOnTop(true);
         dbconfig.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         dbconfig.setLocationRelativeTo(null);
         dbconfig.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-    
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        frmEmpresa frameEmpre = new frmEmpresa();
+        desktopPane.add(frameEmpre);
+        //frameCli.setBounds(0, 0, 500, 500);
+        frameEmpre.setVisible(true);    
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // Pantalla Ejercicios
+       Ejercicios eje = new Ejercicios(this, rootPaneCheckingEnabled);
+       eje.setVisible(true);
+       eje.isModal();
+       SetTitulo s = new SetTitulo();
+       s.CambiarTexto(Ejercicio.toString());
+       Guardar_Config();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formComponentShown
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        // TODO add your handling code here:
+     
+        
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_formFocusGained
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       
+        
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        frmManFacturas frmfacturas = new frmManFacturas();
+        desktopPane.add(frmfacturas);
+        frmfacturas.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // Ventas IVAS
+        frmIVAS frmiva = new frmIVAS();
+        desktopPane.add(frmiva);
+        //frameCli.setBounds(0, 0, 500, 500);
+        frmiva.setVisible(true);   
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // Ventaba Formas de Pago
+        frmFormasPago frmFPago = new frmFormasPago();
+        desktopPane.add(frmFPago);
+        frmFPago.setVisible(true);  
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -318,18 +534,18 @@ public class NewJFrame extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        
+
         //* Existen Parametros, asignar a sus variables
-        if ((args != null) && (args.length > 0)){
+        if ((args != null) && (args.length > 0)) {
             username = args[0].toString();
             String tamaño = String.valueOf(args.length);
             String Msg = "Numero de parametros: " + tamaño;
-            System.out.println( Msg);
+            System.out.println(Msg);
             if (args.length > 1) {
                 password = args[1].toString();
             }
         }
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -347,42 +563,52 @@ public class NewJFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
                 try {
                     new NewJFrame().setVisible(true);
                 } catch (UnsupportedEncodingException ex) {
                     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
 
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItemClientes;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JPopupMenu.Separator jSeparator5;
-    private javax.swing.JLabel jlblPath;
-    private javax.swing.JLabel lblDB;
+    javax.swing.JDesktopPane desktopPane;
+    javax.swing.JLabel jLabel1;
+    javax.swing.JLabel jLabel10;
+    javax.swing.JLabel jLabel2;
+    javax.swing.JMenu jMenu1;
+    javax.swing.JMenu jMenu2;
+    javax.swing.JMenu jMenu3;
+    javax.swing.JMenu jMenu4;
+    javax.swing.JMenuBar jMenuBar1;
+    javax.swing.JMenuItem jMenuItem10;
+    javax.swing.JMenuItem jMenuItem11;
+    javax.swing.JMenuItem jMenuItem2;
+    javax.swing.JMenuItem jMenuItem3;
+    javax.swing.JMenuItem jMenuItem4;
+    javax.swing.JMenuItem jMenuItem5;
+    javax.swing.JMenuItem jMenuItem6;
+    javax.swing.JMenuItem jMenuItem7;
+    javax.swing.JMenuItem jMenuItem8;
+    javax.swing.JMenuItem jMenuItem9;
+    javax.swing.JMenuItem jMenuItemClientes;
+    javax.swing.JPanel jPanel1;
+    javax.swing.JPopupMenu.Separator jSeparator1;
+    javax.swing.JSeparator jSeparator2;
+    javax.swing.JSeparator jSeparator3;
+    javax.swing.JSeparator jSeparator4;
+    javax.swing.JPopupMenu.Separator jSeparator5;
+    javax.swing.JPopupMenu.Separator jSeparator6;
+    javax.swing.JLabel jlblPath;
+    javax.swing.JLabel lblDB;
     // End of variables declaration//GEN-END:variables
 }
