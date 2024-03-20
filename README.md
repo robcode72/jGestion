@@ -3,7 +3,7 @@
 Programa de gestión simple que compone de clientes, facturas, albaranes, IVAS, Formas de Pago y Ejercicio contable.
 Los listado se pueden Exportar a Excel y PDF.
 
-- Frontend JAVA con Netbeens 2024
+- Frontend JAVA 8 (JDK 1.8) con framework Swing con Netbeens 2024
 - Backend Oracle 21c.
   
 
