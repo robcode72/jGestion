@@ -19,6 +19,10 @@ import javax.swing.JOptionPane;
  */
 public class frmNuevoEditar_FPago extends javax.swing.JDialog {
 
+    public Integer CodFPago;
+    public String NomFPago;
+    public Integer Estado; // 0=Editar 1=Nuevo 
+
     /**
      * Creates new form frmNuevoEditar_FPago
      */
@@ -45,6 +49,11 @@ public class frmNuevoEditar_FPago extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,8 +96,9 @@ public class frmNuevoEditar_FPago extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-
+        // Guardar Cambios Forma Pago
+        
+        // Comprobar Valores
         if (edtNomFPago.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Debes de introducir una descripción", "WARNING_MESSAGE", JOptionPane.WARNING_MESSAGE);
             edtNomFPago.setFocusable(true);
@@ -96,10 +106,10 @@ public class frmNuevoEditar_FPago extends javax.swing.JDialog {
         }
 
         String n = edtNomFPago.getText().toString();
-        Nuevo_FPago(n);
+        Guardar_FPago(n, CodFPago);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-    private void Nuevo_FPago(String NomFPago) {
+    private void Guardar_FPago(String NomFPago, Integer CodfPago) {
        // Muestra la información del cliente para poder editarlo
         try {
             // Send Query
@@ -110,7 +120,13 @@ public class frmNuevoEditar_FPago extends javax.swing.JDialog {
             CallableStatement cs = null;
             ResultSet rs = null;
 
-            String SQL = "{call XGESTION_PKG.INSERTAR_FPAGO(?)}";
+            String SQL;
+            // Comprobar el Estado 0=Editar 1=Nuevo
+            if (Estado == 1){
+                SQL = "{call XGESTION_PKG.INSERTAR_FPAGO(?)}";
+            }else{
+               SQL = "{call XGESTION_PKG.ACTUALIZAR_FPAGO(?,?)}"; 
+            }
 
             connection = DriverManager.getConnection(NewJFrame.dbURL, NewJFrame.username, NewJFrame.password);
             stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -121,8 +137,18 @@ public class frmNuevoEditar_FPago extends javax.swing.JDialog {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
-
-            cs.setString(1, NomFPago);
+            if (Estado == 1){
+                cs.setString(1, NomFPago);
+            }else
+            {
+             
+                /*p_codfpago   IN FORMASPAGO.IDFORMPAGO%TYPE,
+                * p_nomfpago   IN FORMASPAGO.NOMPAGO%TYPE
+                */
+                
+                cs.setInt(1, CodfPago);  
+                cs.setString(2, NomFPago);  
+            }
             cs.execute();
 
             cs.close();
@@ -137,6 +163,17 @@ public class frmNuevoEditar_FPago extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // Comprobar el Estado
+        if (Estado == 0){
+            setTitle("Editar Forma de pago");
+            edtNomFPago.setText(NomFPago);
+        }else{
+            setTitle("Nueva Forma de pago");
+        }
+
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
